@@ -3,6 +3,7 @@
 # Template: {{ source }}
 
 {% include 'openvpn/files/common_opts.jinja' %}
+{%- set config = salt['pillar.get']("openvpn:{}:{}".format(type, name), {}) %}
 
 
 {%- if not (config.tls_server is defined and config.tls_server == False) %}
@@ -15,18 +16,8 @@ tls-server
 local {{ config.local }}
 {%- endif %}
 
-{%- if config.port is defined %}
-port {{ config.port }}
-{%- else %}
-port 1194
-{%- endif %}
-
 {%- if config.port_share is defined %}
 port-share {{ config.port_share }}
-{%- endif %}
-
-{%- if config.daemon is defined and config.daemon == True %}
-daemon
 {%- endif %}
 
 {%- if config.topology is defined %}
@@ -107,6 +98,10 @@ plugin {{ plugin }}
 
 {%- if config.client_cert_not_required is defined %}
 client-cert-not-required
+{%- endif %}
+
+{%- if config.verify_client_cert is defined %}
+verify-client-cert {{ config.verify_client_cert }}
 {%- endif %}
 
 {%- if config.management is defined %}
