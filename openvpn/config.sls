@@ -34,7 +34,7 @@ openvpn_config_{{ type }}_{{ name }}:
     - context:
         name: {{ name }}
         config:
-          {{ config | json_encode_dict }}
+          {{ config | json_decode_dict }}
         user: {{ map.user }}
         group: {{ map.group }}
     - watch_in:
