@@ -169,6 +169,8 @@ openvpn_{{ type }}_{{ name }}_log_file:
     - name: {{ config.log }}
     - makedirs: True
     {{ _permissions(640) }}
+    - require_in:
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.log_append is defined %}
@@ -178,6 +180,8 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
     - name: {{ config.log_append }}
     - makedirs: True
     {{ _permissions(640) }}
+    - require_in:
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.client_config_dir is defined %}
